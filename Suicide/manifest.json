@@ -1,0 +1,11 @@
+{
+    "entry": "Suicide.js",
+    "name": "Suicide",
+    "type": "lse-quickjs",
+    "version": "1.0.1",
+    "dependencies": [
+        {
+            "name": "legacy-script-engine-quickjs"
+        }
+    ]
+}

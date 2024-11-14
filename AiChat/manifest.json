@@ -1,0 +1,17 @@
+{
+    "entry": "index.js",
+    "name": "AiChat",
+    "type": "lse-nodejs",
+    "version": "1.0.0",
+    "author": "pingguo",
+    "dependencies": [
+        {
+            "name": "legacy-script-engine-nodejs"
+        }
+    ],
+    "optionalDependencies":[
+        {
+            "name":"sparkbridge2"
+        }
+    ]
+}

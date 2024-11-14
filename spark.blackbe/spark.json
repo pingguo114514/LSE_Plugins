@@ -1,0 +1,11 @@
+{
+    "name": "spark.blackbe",
+    "author": "铭记mingji",
+    "version": [
+        1,
+        0,
+        0
+    ],
+    "desc": "查询群友是否有云黑数据",
+    "load": true
+}
