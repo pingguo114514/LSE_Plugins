@@ -1,0 +1,11 @@
+{
+    "entry": "ProhibitedWords.js",
+    "name": "ProhibitedWords",
+    "type": "lse-quickjs",
+    "version": "1.0.0",
+    "dependencies": [
+        {
+            "name": "legacy-script-engine-quickjs"
+        }
+    ]
+}
