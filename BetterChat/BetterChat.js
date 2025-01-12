@@ -37,7 +37,8 @@ var language = new JsonConfigFile('plugins/BetterChat/language.json', JSON.strin
         "0": "主世界",
         "1": "地狱",
         "2": "末地"
-    }
+    },
+    noOrg: "无"
 }));
 if (conf.get('badWordsFilter')) var check = ll.imports('ProhibitedWords', 'check'), replace = ll.imports('ProhibitedWords', 'replace');
 if (conf.get('showOrganization')) var orgNameQuery = ll.imports('orgEX', 'orgEX_getPlayerOrgName');
@@ -49,7 +50,7 @@ mc.listen('onChat', (pl, msg) => {
     }
     let t = [], dv = pl.getDevice();
     let latency = dv.lastPing;
-    let orgName = (ll.hasExported('orgEX', 'orgEX_getPlayerOrgName') ? orgNameQuery(pl.xuid) : 'orgEX未安装');
+    let orgName = (ll.hasExported('orgEX', 'orgEX_getPlayerOrgName') ? orgNameQuery(pl.xuid) : 'orgEX未安装') || language.get('noOrg');
     if (latency <= 100) latency = '§a' + latency;
     else if (latency <= 400) latency = '§e' + latency;
     else latency = '§c' + latency;
@@ -58,7 +59,7 @@ mc.listen('onChat', (pl, msg) => {
     if (conf.get('showGmode')) t.push(`§b${language.get('gamemode')[pl.gameMode]}`);
     if (conf.get('showLatency')) t.push(`${latency}ms`);
     if (conf.get('showOrganization')) t.push(`§d${orgName}`);
-    let preMsg = `§r[${t.join('§r|')}§r]<${pl.name}>`;
+    let preMsg = `§r[${t.join('§r|')}§r]<${pl.name}> `;
     mc.broadcast(preMsg + msg);
     if (conf.get('sparkbridge2')) send(`${pl.name}:${msg}`);
     // logger.info(preMsg + msg);
