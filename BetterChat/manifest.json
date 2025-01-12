@@ -1,0 +1,24 @@
+{
+    "entry": "BetterChat.js",
+    "name": "BetterChat",
+    "type": "lse-quickjs",
+    "dependencies": [
+        {
+            "name": "legacy-script-engine-quickjs"
+        },
+        {
+            "name": "ProhibitedWords"
+        }
+    ],
+    "optionalDependencies": [
+        {
+            "name": "orgEX"
+        },
+        {
+            "name": "orgEX.lxl"
+        },
+        {
+            "name": "sparkbridge2"
+        }
+    ]
+}
