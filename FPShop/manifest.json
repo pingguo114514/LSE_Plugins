@@ -1,0 +1,11 @@
+{
+    "entry": "index.js",
+    "name": "FPShop",
+    "type": "lse-quickjs",
+    "version": "1.0.0",
+    "dependencies": [
+        {
+            "name": "legacy-script-engine-quickjs"
+        }
+    ]
+}
