@@ -24,7 +24,7 @@ function deletefp(pla) {
     let deletefp = mc.newCustomForm()
     deletefp.setTitle('下线假人');
     deletefp.addDropdown('选择要下线的假人', plonlinefp.map(i => {
-        return mc.getPlayer(i).realName;
+        return mc.getPlayer(i).name;
     }));
     pla.sendForm(deletefp, (play, data) => {
         if (data == null) return;
@@ -46,7 +46,7 @@ function tpfp(pla) {
     tpfp.setTitle('移动假人');
     tpfp.addLabel('将假人传送到你当前的位置');
     tpfp.addDropdown('选择要移动的假人', plonlinefp1.map(i => {
-        return mc.getPlayer(i).realName;
+        return mc.getPlayer(i).name;
     }));
     pla.sendForm(tpfp, (play, data) => {
         if (data == null) return;
@@ -65,7 +65,7 @@ function fplook(pla) {
     fplook.setTitle('调整假人朝向');
     fplook.addLabel('使假人看向你');
     fplook.addDropdown('选择要调整的假人', plonlinefp2.map(i => {
-        return mc.getPlayer(i).realName;
+        return mc.getPlayer(i).name;
     }));
     pla.sendForm(fplook, (play, data) => {
         if (data == null) return;

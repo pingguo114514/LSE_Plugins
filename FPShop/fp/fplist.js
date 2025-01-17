@@ -18,7 +18,7 @@ function reglistcmd() {
     cmd1.overload([]);
     cmd1.setCallback((cmd, ori, output, res) => {
         let fplist = GetOnlineFp().map(pl => {
-            return pl.realName;
+            return pl.name;
         });
         output.success(`目前有 ${fplist.length}/${conf.get('fpMaxCount')} 个假人在线：`);
         output.success(fplist.join(', '));
