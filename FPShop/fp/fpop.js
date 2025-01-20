@@ -14,7 +14,7 @@ function opdeletefp(pla) {
     if (GetOnlineFp().length == 0) return pla.tell('服务器内没有假人了');
     deletefp.setTitle('下线假人');
     deletefp.addDropdown('选择要下线的假人', OnlineFp.map(i => {
-        return i.realName;
+        return i.name;
     }));
     pla.sendForm(deletefp, (play, data) => {
         try {
