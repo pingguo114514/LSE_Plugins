@@ -1,0 +1,11 @@
+{
+    "name": "verify",
+    "author": "pingguo",
+    "version": [
+        1,
+        0,
+        0
+    ],
+    "desc": "入群验证",
+    "load": true
+}
