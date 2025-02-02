@@ -1,0 +1,11 @@
+{
+    "name": "music",
+    "author": "pingguo",
+    "version": [
+        1,
+        0,
+        0
+    ],
+    "desc": "在Q群内点歌",
+    "load": true
+}
