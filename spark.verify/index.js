@@ -28,6 +28,7 @@ setInterval(() => {
         }
         return true;
     });
+    writeCache(cache);
 }, 60000);
 mc.listen('onJoin', (pl) => {
     if (pl.isSimulatedPlayer()) return;
