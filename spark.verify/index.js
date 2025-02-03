@@ -20,7 +20,7 @@ spark.on('notice.group_increase', (e) => {
 });
 setInterval(() => {
     let cache = getCache();
-    cache.filter(i => {
+    cache=cache.filter(i => {
         if (Date.now() >= i.time) {
             spark.QClient.sendGroupMsg(spark.mc.config.group, [msgbuilder.at(i.qq), msgbuilder.text(' 未在一天内进入服务器')]);
             spark.QClient.setGroupKick(spark.mc.config.group, i.qq, false);
