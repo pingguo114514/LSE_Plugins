@@ -4,7 +4,7 @@
     "version": [
         1,
         0,
-        0
+        1
     ],
     "desc": "在Q群内点歌",
     "load": true

@@ -1,6 +1,3 @@
-/// <reference path="../../SparkBridgeDevelopTool/index.d.ts"/>
-/// <reference path="c:\LSE/dts/HelperLib-master/src/index.d.ts"/> 
-
 const axios = require('axios');
 const msgbuilder = require('../../handles/msgbuilder');
 var cache = {};
@@ -18,9 +15,8 @@ async function searchSong(keyword) {
 }
 async function getSongUrl(mid) {
     try {
-        const url = `https://api.vkeys.cn/v2/music/tencent/geturl?mid=${mid}`;
-        const response = await axios.get(url);
-        return response.data.data.url;
+        const response = await axios.get(`https://api.leafone.cn/api/qqmusic?id=${mid}`);
+        return response;
     } catch (error) {
         console.error('请求失败:', error);
         return 'error';
@@ -59,10 +55,10 @@ spark.on('message.group.normal', wrapAsyncFunc(async (e) => {
     if (raw_message.startsWith('选择')) {
         let id = raw_message.replace('选择', '');
         if (!isNumber(id) || !cache[user_id] || JSON.stringify(cache[user_id]) == '{}') return;
-        let url = await getSongUrl(cache[user_id][id]);
-        if (url == 'error' || !url) return reply('获取链接失败');
+        let res = await getSongUrl(cache[user_id][id]);
+        if (res == 'error' || res.status != 200 || res.data.code != 200) return reply('获取链接失败');
         cache[user_id] = {};
         reply('获取链接成功，正在下载歌曲，请稍微等待一段时间');
-        spark.QClient.sendGroupMsg(group_id, [msgbuilder.record(url)]);
+        spark.QClient.sendGroupMsg(group_id, [msgbuilder.record(res.data.data.url)]);
     }
 }));
