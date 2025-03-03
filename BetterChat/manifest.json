@@ -2,13 +2,16 @@
     "entry": "BetterChat.js",
     "name": "BetterChat",
     "type": "lse-quickjs",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "dependencies": [
         {
             "name": "legacy-script-engine-quickjs"
         }
     ],
     "optionalDependencies": [
+        {
+            "name": "iListenAttentively-LseExport"
+        },
         {
             "name": "ProhibitedWords"
         },

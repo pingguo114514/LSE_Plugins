@@ -1,6 +1,5 @@
 // LiteLoader-AIDS automatic generated
 /// <reference path="c:\LSE/dts/HelperLib-master/src/index.d.ts"/> 
-
 var conf = new JsonConfigFile('plugins/BetterChat/config.json');
 conf.init('showPlatform', true);
 conf.init('showGmode', true);
@@ -45,11 +44,7 @@ var language = new JsonConfigFile('plugins/BetterChat/language.json', JSON.strin
 if (conf.get('badWordsFilter')) var check = ll.imports('ProhibitedWords', 'check'), replace = ll.imports('ProhibitedWords', 'replace');
 if (conf.get('showOrganization')) var orgNameQuery = ll.imports('orgEX', 'orgEX_getPlayerOrgName');
 if (conf.get('sparkbridge2')) var send = ll.imports('SparkAPI', 'sendGroupMessage');
-mc.listen('onChat', (pl, msg) => {
-    if (conf.get('badWordsFilter') && check(msg)) {
-        pl.tell('§c§l你的消息包含敏感词汇');
-        msg = replace(msg, '*');
-    }
+function formatMessage(pl, msg) {
     let t = [], dv = pl.getDevice();
     let latency = dv.lastPing;
     let orgName = (ll.hasExported('orgEX', 'orgEX_getPlayerOrgName') ? orgNameQuery(pl.xuid) : 'orgEX未安装') || language.get('noOrg');
@@ -62,8 +57,32 @@ mc.listen('onChat', (pl, msg) => {
     if (conf.get('showLatency')) t.push(`${latency}ms`);
     if (conf.get('showOrganization')) t.push(`§d${orgName}`);
     let preMsg = `§r[${t.join('§r|')}§r]<${pl.name}> `;
-    mc.broadcast(preMsg + msg);
     if (conf.get('sparkbridge2')) send(`${pl.name}:${msg}`);
-    // logger.info(preMsg + msg);
-    return false;
-});
+    return preMsg + msg;
+}
+function filterSensitiveWords(pl, msg) {
+    if (conf.get('badWordsFilter') && check(msg)) {
+        pl.tell('§c§l你的消息包含敏感词汇');
+        return replace(msg, '*');
+    }
+    return msg;
+}
+if (ll.listPlugins().includes('iListenAttentively-LseExport')) {
+    /** @type {import("../iListenAttentively-LseExport/lib/iListenAttentively.js")} */
+    const iListenAttentively = require('./iListenAttentively-LseExport/lib/iListenAttentively.js');
+    iListenAttentively.emplaceListener('ll::event::player::PlayerChatEvent', (ev) => {
+        let pl = iListenAttentively.getPlayer(ev.self), msg = ev.message;
+        ev.message = filterSensitiveWords(pl, msg);
+    }, iListenAttentively.EventPriority.High);
+    iListenAttentively.emplaceListener('ll::event::player::PlayerChatEvent', (ev) => {
+        let pl = iListenAttentively.getPlayer(ev.self), msg = ev.message;
+        mc.broadcast(formatMessage(pl, msg));
+        ev.cancelled = true;
+    }, iListenAttentively.EventPriority.Low);
+} else {
+    mc.listen('onChat', (pl, msg) => {
+        msg = filterSensitiveWords(pl, msg);
+        mc.broadcast(formatMessage(pl, msg));
+        return false;
+    });
+}
