@@ -1,0 +1,12 @@
+{
+    "name": "JoinNotifier",
+    "author": "pingguo",
+    "version": [
+        0,
+        0,
+        1
+    ],
+    "desc": "上线提醒",
+    "loadmode": "bds",
+    "load": true
+}
