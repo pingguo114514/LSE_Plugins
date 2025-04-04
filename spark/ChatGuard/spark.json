@@ -1,0 +1,12 @@
+{
+    "name": "ChatGuard",
+    "author": "pingguo",
+    "version": [
+        2,
+        0,
+        0
+    ],
+    "desc": "",
+    "loadmode": "bds",
+    "load": true
+}
