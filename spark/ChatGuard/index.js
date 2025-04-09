@@ -1,6 +1,3 @@
-/// <reference path="../../SparkBridgeDevelopTool/index.d.ts"/>
-/// <reference types="@levimc-lse/types" />
-
 const msgbuilder = require('../../handles/msgbuilder');
 const packbuilder = require('../../handles/packbuilder');
 const logger = spark.getLogger("ChatGuard");
@@ -60,7 +57,7 @@ mc.listen('onServerStarted', () => {
                 cache[user_id].lastmsg = raw_message;
             }
         }
-        setTimeout(() => { cache[user_id]-- }, 60000);
+        setTimeout(() => { cache[user_id].rate-- }, 60000);
         if (cache[user_id].rate > conf.antispam.maxRate) {
             if (conf.antispam.reply.enabled) spark.QClient.sendGroupMsg(group_id, [msgbuilder.reply(message_id), msgbuilder.text(conf.antispam.reply.toofast)]);
             if (conf.antispam.mute.enabled) spark.QClient.sendGroupBan(group_id, user_id, conf.antispam.mute.time);
