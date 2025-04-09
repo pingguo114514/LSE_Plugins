@@ -30,10 +30,10 @@ async function check(uid, gid) {
                 t.push(`玩家XUID：${i.xuid}`);
                 t.push(`玩家违规信息：${i.info}`);
                 t.push(`违规等级：${i.level}`);
-                if(i.qq) t.push(`玩家QQ：${i.qq}`);
-                if(i.photos) t.push('证据图片:');
+                if (i.qq) t.push(`玩家QQ：${i.qq}`);
+                if (i.photos) t.push('证据图片:');
                 msg.push(msgbuilder.text(t.join('\n')));
-                if(i.photos) msg.push(...i.photos.map(url => msgbuilder.img('https://'+url)));
+                if (i.photos) msg.push(...i.photos.map(url => msgbuilder.img('https://' + url)));
             });
             spark.QClient.sendGroupMsg(gid, msg);
         }

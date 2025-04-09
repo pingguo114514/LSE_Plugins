@@ -39,7 +39,7 @@ let config = new ConfigFile('config.json', {
     antispam: {
         enabled: true,
         maxRate: 20,
-        maxSameMsg:5,
+        maxSameMsg: 5,
         mute: {
             enabled: true,
             time: 60
