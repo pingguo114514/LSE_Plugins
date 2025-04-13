@@ -74,7 +74,7 @@ spark.on('bot.online', async () => {
                 else {
                     let res = await getMediaSource(cache[user_id][id - 1], 'standard');
                     url = res.url;
-                    if (res.header != null) header = res.header;
+                    if (res.headers != null) header = res.headers;
                     if (res.ua != null) header['User-Agent'] = res.userAgent;
                 }
                 if (url == '') return reply('获取链接失败');
