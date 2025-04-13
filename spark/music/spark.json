@@ -3,9 +3,11 @@
     "author": "pingguo",
     "version": [
         1,
-        0,
-        1
+        1,
+        0
     ],
     "desc": "在Q群内点歌",
+    "loadmode":"hybrid",
+    "permission": "key",
     "load": true
 }
