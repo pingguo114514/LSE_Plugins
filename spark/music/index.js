@@ -1,4 +1,5 @@
 const fs = require("fs");
+const fetch = require('node-fetch-native');
 const msgbuilder = require('../../handles/msgbuilder');
 const logger = spark.getLogger('music');
 const ConfigFile = require('./config');
