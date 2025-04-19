@@ -1,14 +1,14 @@
 {
   "dependencies": {
-    "@react-native-cookies/cookies": "^6.2.1",
-    "axios": "^0.27.2",
-    "big-integer": "^1.6.51",
-    "cheerio": "^1.0.0-rc.12",
-    "crypto-js": "^4.2.0",
-    "dayjs": "^1.11.4",
-    "he": "^1.2.0",
+    "@react-native-cookies/cookies": "6.2.1",
+    "axios": "0.27.2",
+    "big-integer": "1.6.51",
+    "cheerio": "1.0.0-rc.12",
+    "crypto-js": "4.1.1",
+    "dayjs": "1.11.4",
+    "he": "1.2.0",
     "node-fetch-native": "^1.6.6",
-    "qs": "^6.11.0",
-    "webdav": "^5.3.1"
+    "qs": "6.11.0",
+    "webdav": "5.3.1"
   }
 }
