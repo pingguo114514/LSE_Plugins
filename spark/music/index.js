@@ -3,8 +3,12 @@ const fetch = require('node-fetch-native');
 const msgbuilder = require('../../handles/msgbuilder');
 const logger = spark.getLogger('music');
 const ConfigFile = require('./config');
-let conf = new ConfigFile('config.json', { plugin: 'https://github.bibk.top/ThomasBy2025/musicfree/raw/refs/heads/main/plugins/wy.js' });
-const URL = conf.get().plugin;
+let config = new ConfigFile('config.json', {
+    plugin: 'https://github.bibk.top/ThomasBy2025/musicfree/raw/refs/heads/main/plugins/wy.js',
+    userVariables: {}
+});
+let conf = config.get();
+const pluginUrl = conf.plugin;
 let cache = {};
 let PLUGIN_DIR;
 if (spark.onBDS) {
@@ -13,7 +17,7 @@ if (spark.onBDS) {
 } else PLUGIN_DIR = './plugins';
 spark.on('bot.online', async () => {
     try {
-        let res = await fetch(URL);
+        let res = await fetch(pluginUrl);
         let plugin = await res.text();
         fs.writeFileSync(`${PLUGIN_DIR}/music/plugin.js`, plugin);
     } catch (e) {
@@ -23,12 +27,16 @@ spark.on('bot.online', async () => {
     const { platform, author, version, userVariables } = require('./plugin');
     logger.info(`正在加载 ${platform} v${version}`);
     if (userVariables) {
-        let fakeUserVariables = {};
-        userVariables.forEach(i => {
-            fakeUserVariables[i.key] = null;
-        });
+        if (!conf.userVariables[pluginUrl]) {
+            logger.warn('当前插件存在可配置的用户变量，请前往config.json查看，修改完后重启生效');
+            conf.userVariables[pluginUrl] = userVariables.map(i => ({ ...i, value: "" }));
+        }
+        config.set(conf);
+        const uv = Object.fromEntries(
+            conf.userVariables[pluginUrl].map(({ key, value }) => [key, value])
+        );
         global.env = {
-            getUserVariables: () => { return fakeUserVariables }
+            getUserVariables: () => { return uv }
         };
     }
     const { search, getMediaSource } = require('./plugin');
@@ -79,6 +87,17 @@ spark.on('bot.online', async () => {
                     if (res.ua != null) header['User-Agent'] = res.userAgent;
                 }
                 if (url == '') return reply('获取链接失败');
+                const parsedUrl = new URL(url);
+                if (parsedUrl.username || parsedUrl.password) { // 仅当有凭证时处理
+                    // 生成认证头
+                    const auth = Buffer.from(`${parsedUrl.username}:${parsedUrl.password}`).toString('base64');
+                    header = { ...header, Authorization: `Basic ${auth}` };
+                    
+                    // 清理URL中的敏感信息
+                    parsedUrl.username = '';
+                    parsedUrl.password = '';
+                    url = parsedUrl.toString();
+                }
                 reply('正在下载歌曲，请稍作等待');
                 let res = await fetch(url, { headers: header });
                 let data = await res.arrayBuffer()
