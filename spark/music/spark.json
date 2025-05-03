@@ -4,7 +4,7 @@
     "version": [
         1,
         1,
-        2
+        3
     ],
     "desc": "在Q群内点歌",
     "loadmode": "hybrid",
