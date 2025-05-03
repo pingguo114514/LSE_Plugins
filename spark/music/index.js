@@ -32,11 +32,12 @@ spark.on('bot.online', async () => {
             conf.userVariables[pluginUrl] = userVariables.map(i => ({ ...i, value: "" }));
         }
         config.set(conf);
-        const uv = Object.fromEntries(
-            conf.userVariables[pluginUrl].map(({ key, value }) => [key, value])
-        );
         global.env = {
-            getUserVariables: () => { return uv }
+            getUserVariables: () => {
+                return Object.fromEntries(
+                    config.get().userVariables[pluginUrl].map(({ key, value }) => [key, value])
+                );
+            }
         };
     }
     const { search, getMediaSource } = require('./plugin');
@@ -51,12 +52,12 @@ spark.on('bot.online', async () => {
         function reply(text) {
             spark.QClient.sendGroupMsg(group_id, [msgbuilder.reply(message_id), msgbuilder.text(text)]);
         }
-        if (!cache[user_id]) cache[user_id] = {};
+        if (!cache[user_id]) cache[user_id] = [];
         if (raw_message.startsWith('点歌 ')) {
             try {
                 let songs = await search(raw_message.slice(3), 1, 'music');
                 songs = songs.data;
-                if (songs.length == 0) {
+                if (!songs || songs.length == 0) {
                     reply('没有找到相关歌曲');
                     return;
                 }
@@ -73,7 +74,7 @@ spark.on('bot.online', async () => {
                 return;
             }
         }
-        if (raw_message.startsWith('选择')) {
+        if (cache[user_id].length !== 0 && raw_message.startsWith('选择')) {
             let id = raw_message.replace('选择', '');
             if (!isNumber(id) || !cache[user_id]) return;
             id = parseInt(id);
@@ -92,7 +93,7 @@ spark.on('bot.online', async () => {
                     // 生成认证头
                     const auth = Buffer.from(`${parsedUrl.username}:${parsedUrl.password}`).toString('base64');
                     header = { ...header, Authorization: `Basic ${auth}` };
-                    
+
                     // 清理URL中的敏感信息
                     parsedUrl.username = '';
                     parsedUrl.password = '';
