@@ -2,7 +2,7 @@
     "entry": "iLandFly.js",
     "name": "iLandFly",
     "type": "lse-quickjs",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "dependencies": [
         {
             "name": "legacy-script-engine-quickjs"
